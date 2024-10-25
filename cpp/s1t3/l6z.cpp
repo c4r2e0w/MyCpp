@@ -1,4 +1,4 @@
-Задание
+/*Задание
 В приют привозят собак разных пород. Информация о них хранится в двух словарях:
 словарь shelter хранит текущее количество собак каждой породы,
 словарь max_amount — максимальное возможное количество собак каждой породы, которое может вместить приют. Может иметь значение 0.
@@ -38,17 +38,32 @@ cout << CountAndAddNewDogs(new_dogs, max_amount, shelter) << endl;
 Не используйте циклы.
 Как будет тестироваться ваш код
 Тренажёр проверит работу функции CountAndAddNewDogs, передавая ей различные комбинации входных данных и сравнивая возвращаемое значение и содержимое контейнера shelter c ожидаемым.
+*/
 
 #include <map>
 #include <string>
 #include <vector>
 #include <iostream>
+#include <algorithm>
 
 using namespace std;
 
 int CountAndAddNewDogs(const vector<string>& new_dogs, const map<string, int>& max_amount,
                        map<string, int>& shelter) {
-    //...
+    return count_if(new_dogs.begin(), new_dogs.end(), [&](const string& breed) {
+        // Проверяем, есть ли такая порода в max_amount и shelter
+        int current_count = shelter[breed]; // количество собак текущей породы в приюте
+        int max_count = max_amount.at(breed); // максимальное количество собак этой породы
+        
+        // Проверяем, можно ли добавить еще одну собаку этой породы
+        if (current_count < max_count) {
+            shelter[breed]++; // Увеличиваем количество собак в приюте
+            return true; // Возвращаем true, если собаку удалось пристроить
+        }
+        
+        // Если не удалось, возвращаем false
+        return false;
+    });
 }
 
 int main() {
@@ -64,6 +79,13 @@ int main() {
     };
 
     cout << CountAndAddNewDogs({"shepherd"s, "shiba inu"s, "shiba inu"s, "corgi"s}, max_amount, shelter) << endl;
+
+    // Выводим текущее состояние shelter после добавления собак
+    for (const auto& [breed, count] : shelter) {
+        cout << breed << ": " << count << endl;
+    }
+
+    return 0;
 }
 
 /*Примените count_if, чтобы посчитать количество собак, которых удалось устроить в приют.
