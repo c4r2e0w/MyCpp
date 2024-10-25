@@ -1,0 +1,18 @@
+{
+  "C++ File Template": {
+    "prefix": "cppt",
+    "body": [
+      "#include <iostream>",
+      "#include <windows.h>",
+      "using namespace std;",
+      
+      "int main() {",
+      "SetConsoleCP(CP_UTF8);",
+      "SetConsoleOutputCP(CP_UTF8);",
+      "    $1",
+      "    return 0;",
+      "}"
+    ],
+    "description": "Creates a new C++ file with a basic template"
+  }
+}
